@@ -1,10 +1,10 @@
-package com.mike.givemewingzz.found;
+package com.mike.givemewingzz.found.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,11 +12,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.mike.givemewingzz.found.R;
+import com.mike.givemewingzz.found.apihelper.YelpAPI;
 
 public class Found extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    
-    private String init;
+
+    // Just a test case to test the token interchange from the server.
+    // Todo : Delete and modify the data flow. Integrate Asynshronous process within application.
+    private static final String CONSUMER_KEY = "Ox-ughsjh_PCpSX6S6jYIA";
+    private static final String CONSUMER_SECRET = "EFHJdZKBsu_KLoaSET1KqytTuUw";
+    private static final String TOKEN = "NVR_cA0iYEiZwk_8BJh_ySTmyG5LPlhA";
+    private static final String TOKEN_SECRET = "zFUI3i3hAxDMdpKOdSpVtGqdoac";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +79,9 @@ public class Found extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            new TestTask().execute();
+
             return true;
         }
 
@@ -100,4 +112,21 @@ public class Found extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    // Just a test case to test the token interchange from the server.
+    // Todo : Delete and modify the data flow. Integrate Asynshronous process within application.
+    public class TestTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            YelpAPI yelpAPI = new YelpAPI();
+            yelpAPI.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+            yelpAPI.queryForSearchResults("starbucks", "Seattle,WA", 3);
+
+            return null;
+        }
+
+    }
+
 }
