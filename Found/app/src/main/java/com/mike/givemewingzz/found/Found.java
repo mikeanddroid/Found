@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 public class Found extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    
+    private String init;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
