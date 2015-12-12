@@ -3,10 +3,7 @@ package com.mike.givemewingzz.found.apihelper;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.mike.givemewingzz.found.data.models.YelpWrapper;
 import com.mike.givemewingzz.found.parcelable.YelpAuth;
-import com.mike.givemewingzz.found.utils.BaseClient;
-import com.mike.givemewingzz.found.utils.BaseRetrofitInterface;
 import com.mike.givemewingzz.found.utils.FoundConstants;
 
 import org.json.simple.JSONObject;
@@ -22,17 +19,14 @@ import org.scribe.oauth.OAuthService;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-
 /**
  * Code sample for accessing the Yelp API V2.
- * <p/>
+ * <p>
  * This program demonstrates the capability of the Yelp API version 2.0 by using the Search API to
  * query for businesses by a search term and location, and the Business API to query additional
  * information about the top result from the search query.
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * See <a href="http://www.yelp.com/developers/documentation">Yelp Documentation</a> for more info.
  */
 public class YelpAPI {
@@ -67,79 +61,11 @@ public class YelpAPI {
                 new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(consumerKey)
                         .apiSecret(consumerSecret).build();
         this.accessToken = new Token(token, tokenSecret);
-        setRequest();
-
-    }
-
-    private void setRequest(){
-        OAuthRequest request = createOAuthRequest(SEARCH_PATH);
-        setAuthParams(request);
-    }
-
-    private void setAuthParams(OAuthRequest request) {
-
-        this.service.signRequest(this.accessToken, request);
-
-        BaseRetrofitInterface baseRetrofitInterface = BaseClient.getBBSIClient();
-
-        for(int i =0;i<request.getOauthParameters().size();i++){
-            Log.d("Response val",""+request.getOauthParameters().values().toArray()[i]);
-        }
-
-        String oauth_signature_method = (String)request.getOauthParameters().values().toArray()[0];
-        String oauth_consumer_key = (String)request.getOauthParameters().values().toArray()[1];
-        String oauth_version = (String)request.getOauthParameters().values().toArray()[2];
-        String oauth_timestamp = (String)request.getOauthParameters().values().toArray()[3];
-        String oauth_nonce = (String)request.getOauthParameters().values().toArray()[4];
-        String oauth_token = (String)request.getOauthParameters().values().toArray()[5];
-        String oauth_signature = (String)request.getOauthParameters().values().toArray()[6];
-
-        baseRetrofitInterface.searchParams("Starbucks", "Seattle,WA",
-
-                oauth_consumer_key,
-                oauth_token,
-                oauth_signature_method,
-                oauth_timestamp,
-                oauth_nonce,
-                oauth_version,
-                oauth_signature
-
-                , new Callback<YelpWrapper>() {
-                    @Override
-                    public void success(YelpWrapper yelpWrapper, retrofit.client.Response response) {
-                        Log.d("Response", response.getBody().toString());
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("Response Error", "Error : " + error.getMessage());
-                    }
-                });
-
-        yelpAuth = new YelpAuth();
-
-        for(Map.Entry<String, String> mapEntry : request.getOauthParameters().entrySet()){
-            Log.d("Request Auth","Key : " + mapEntry.getKey() + ": Value : "+ mapEntry.getValue());
-            map.put(mapEntry.getKey(), mapEntry.getValue());
-        }
-
-        yelpAuth.setOauth_signature_method(map.get(FoundConstants.OAUTH_SIGNATURE_METHOD));
-        yelpAuth.setOauth_consumer_key(map.get(FoundConstants.OAUTH_CONSUMER_KEY));
-        yelpAuth.setOauth_version(map.get(FoundConstants.OAUTH_VERSION));
-        yelpAuth.setOauth_timestamp(map.get(FoundConstants.OAUTH_TIMESTAMP));
-        yelpAuth.setOauth_nonce(map.get(FoundConstants.OAUTH_NONCE));
-        yelpAuth.setOauth_token(map.get(FoundConstants.OAUTH_TOKEN));
-        yelpAuth.setOauth_signature(map.get(FoundConstants.OAUTH_SIGNATURE));
-
-        bundle = new Bundle();
-        bundle.putParcelable(YelpAuth.YELP_AUTH, yelpAuth);
-        setAuth(bundle);
-
     }
 
     /**
      * Creates and sends a request to the Search API by term and location.
-     * <p/>
+     * <p>
      * See <a href="http://www.yelp.com/developers/documentation/v2/search_api">Yelp Search API V2</a>
      * for more info.
      *
@@ -160,7 +86,7 @@ public class YelpAPI {
 
     }
 
-    private String sRAGR(OAuthRequest request){
+    private String sRAGR(OAuthRequest request) {
 
         this.service.signRequest(this.accessToken, request);
         Response response = request.send();
@@ -235,11 +161,11 @@ public class YelpAPI {
         return responseBody;
     }
 
-    private void setAuth(Bundle bundle){
+    private void setAuth(Bundle bundle) {
         this.bundle = bundle;
     }
 
-    public Bundle getAuthFromBundle(){
+    public Bundle getAuthFromBundle() {
         return bundle;
     }
 

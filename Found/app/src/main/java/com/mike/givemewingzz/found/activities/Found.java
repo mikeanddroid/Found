@@ -10,21 +10,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.mike.givemewingzz.found.R;
-import com.mike.givemewingzz.found.apihelper.YelpAPI;
+import com.mike.givemewingzz.found.apihelper.FoundApiHelper;
+import com.mike.givemewingzz.found.data.models.YelpWrapper;
 import com.mike.givemewingzz.found.parcelable.YelpAuth;
+import com.mike.givemewingzz.found.utils.BaseClient;
+import com.mike.givemewingzz.found.utils.BaseRetrofitInterface;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Found extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     // Just a test case to test the token interchange from the server.
     // Todo : Delete and modify the data flow. Integrate Asynshronous process within application.
     private static final String CONSUMER_KEY = "Ox-ughsjh_PCpSX6S6jYIA";
@@ -95,12 +101,9 @@ public class Found extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            new TestTask().execute();
+//            new TestTask().execute();
 
-//            GetSearchResult.call(Found.this, "Starbucks", "Seattle,WA", 5);
-//            GetSearchParams.call(Found.this, "Starbucks", "Seattle,WA");
-
-
+            doTestCall();
             return true;
         }
 
@@ -139,9 +142,12 @@ public class Found extends AppCompatActivity
         @Override
         protected Bundle doInBackground(Bundle... params) {
 
-            YelpAPI yelpAPI1 = new YelpAPI();
-            yelpAPI1.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-            yelpAPI1.searchResultsByQuery("starbucks", "Seattle,WA", 3);
+//            YelpAPI yelpAPI1 = new YelpAPI();
+//            yelpAPI1.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+//            yelpAPI1.searchResultsByQuery("starbucks", "Seattle,WA", 3);
+
+            FoundApiHelper foundApiHelper = new FoundApiHelper();
+            foundApiHelper.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
 
             return new Bundle();
         }
@@ -153,6 +159,22 @@ public class Found extends AppCompatActivity
 //            Log.d(TAG, "Yelp Auth Values-->" + yelpAuth);
 
         }
+    }
+
+    public void doTestCall() {
+        BaseRetrofitInterface baseRetrofitInterface = BaseClient.getBBSIClient();
+
+        baseRetrofitInterface.testParams("Starbucks", "Seattle,WA",3, new Callback<YelpWrapper>() {
+            @Override
+            public void success(YelpWrapper yelpWrapper, Response response) {
+                Log.d(TAG,"Response : " + response.getBody().toString());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG,"Response Error: " + error.getResponse().getBody().toString());
+            }
+        });
     }
 
 }

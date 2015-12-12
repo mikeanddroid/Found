@@ -2,6 +2,9 @@ package com.mike.givemewingzz.found.utils;
 
 import android.util.Log;
 
+import com.mike.givemewingzz.found.apihelper.FoundApiHelper;
+import com.mike.givemewingzz.found.parcelable.YelpAuth;
+
 import retrofit.RequestInterceptor;
 
 /**
@@ -25,32 +28,20 @@ public class BaseUrls {
         @Override
         public void intercept(RequestFacade request) {
 
-//            YelpAPI yelpAPI = new YelpAPI();
-//            yelpAPI.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-//
-//            YelpAuth yelpAuth = yelpAPI.getAuthFromBundle().getParcelable(YelpAuth.YELP_AUTH);
+            FoundApiHelper foundApiHelper = new FoundApiHelper();
+            foundApiHelper.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+            YelpAuth yelpAuth = foundApiHelper.getAuthFromBundle().getParcelable(YelpAuth.YELP_AUTH);
 
-//            request.addHeader("Authorization",
-//                    "oauth_signature_method=" + yelpAuth.getOauth_signature_method() + "," +
-//                    "oauth_consumer_key="+yelpAuth.getOauth_consumer_key() + "," +
-//                    "oauth_version=" + yelpAuth.getOauth_version() + "," +
-//                    "oauth_timestamp="+System.currentTimeMillis() + "," +
-//                    "oauth_nonce=" + yelpAuth.getOauth_nonce() + "," +
-//                    "oauth_token="+yelpAuth.getOauth_token() + "," +
-//                    "oauth_nonce=" + yelpAuth.getOauth_nonce() + "," +
-//                    "oauth_signature=" + yelpAuth.getOauth_signature());
-//
-//            Log.d(BASE_URL, " :: Requst Headers --> " + request);
+            request.addEncodedQueryParam("oauth_consumer_key", yelpAuth.getOauth_consumer_key());
+            request.addEncodedQueryParam("oauth_token", yelpAuth.getOauth_token());
+            request.addEncodedQueryParam("oauth_signature_method", yelpAuth.getOauth_signature_method());
+            request.addEncodedQueryParam("oauth_timestamp", yelpAuth.getOauth_timestamp());
+            request.addEncodedQueryParam("oauth_nonce", yelpAuth.getOauth_nonce());
+            request.addEncodedQueryParam("oauth_version", yelpAuth.getOauth_version());
+            request.addEncodedQueryParam("oauth_signature", yelpAuth.getOauth_signature());
 
-//            request.addEncodedQueryParam("oauth_consumer_key",yelpAuth.getOauth_consumer_key());
-//            request.addEncodedQueryParam("oauth_token",yelpAuth.getOauth_token());
-//            request.addEncodedQueryParam("oauth_signature_method",yelpAuth.getOauth_signature_method());
-//            request.addEncodedQueryParam("oauth_timestamp",yelpAuth.getOauth_timestamp());
-//            request.addEncodedQueryParam("oauth_nonce",yelpAuth.getOauth_nonce());
-//            request.addEncodedQueryParam("oauth_version",yelpAuth.getOauth_version());
-//            request.addEncodedQueryParam("oauth_signature",yelpAuth.getOauth_signature());
-
-            Log.d(BASE_URL, " :: Requst Headers --> " + request);
+            Log.d(TAG, " :: Requst Headers Consumer key--> " + yelpAuth.getOauth_consumer_key());
+            Log.d(TAG, " :: Requst Headers --> " + request);
 
         }
     }

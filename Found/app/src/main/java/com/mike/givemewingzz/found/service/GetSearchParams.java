@@ -31,7 +31,6 @@ public class GetSearchParams {
         YelpAPI yelpAPI = new YelpAPI();
         yelpAPI.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
         YelpAuth yelpAuth = yelpAPI.getAuthFromBundle().getParcelable(YelpAuth.YELP_AUTH);
-
         BaseRetrofitInterface baseRetrofitInterface = BaseClient.getBBSIClient();
 
         baseRetrofitInterface.searchParams(term, location,

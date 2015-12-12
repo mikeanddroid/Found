@@ -17,6 +17,8 @@ import retrofit.converter.GsonConverter;
  */
 public class BaseClient {
 
+    public static final String TAG = BaseClient.class.getSimpleName();
+
     private BaseClient() {
 
     }
@@ -56,7 +58,9 @@ public class BaseClient {
                     .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
                     .build();
 
-            return restAdapter.create(BaseRetrofitInterface.class);
+            BaseRetrofitInterface baseRetrofitInterface = restAdapter.create(BaseRetrofitInterface.class);
+
+            return baseRetrofitInterface;
         }
     }
 
