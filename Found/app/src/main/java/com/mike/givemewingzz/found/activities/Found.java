@@ -13,9 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.mike.givemewingzz.found.R;
 import com.mike.givemewingzz.found.apihelper.YelpAPI;
+import com.mike.givemewingzz.found.parcelable.YelpAuth;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class Found extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,12 +32,22 @@ public class Found extends AppCompatActivity
     private static final String TOKEN = "NVR_cA0iYEiZwk_8BJh_ySTmyG5LPlhA";
     private static final String TOKEN_SECRET = "zFUI3i3hAxDMdpKOdSpVtGqdoac";
 
+    @Bind(R.id.searchCall)
+    Button searchButton;
+
+    YelpAuth yelpAuth;
+
+    public static final String TAG = Found.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.found);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +97,10 @@ public class Found extends AppCompatActivity
 
             new TestTask().execute();
 
+//            GetSearchResult.call(Found.this, "Starbucks", "Seattle,WA", 5);
+//            GetSearchParams.call(Found.this, "Starbucks", "Seattle,WA");
+
+
             return true;
         }
 
@@ -115,18 +134,25 @@ public class Found extends AppCompatActivity
 
     // Just a test case to test the token interchange from the server.
     // Todo : Delete and modify the data flow. Integrate Asynshronous process within application.
-    public class TestTask extends AsyncTask<Void, Void, Void> {
+    public class TestTask extends AsyncTask<Bundle, Void, Bundle> {
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Bundle doInBackground(Bundle... params) {
 
-            YelpAPI yelpAPI = new YelpAPI();
-            yelpAPI.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-            yelpAPI.queryForSearchResults("starbucks", "Seattle,WA", 3);
+            YelpAPI yelpAPI1 = new YelpAPI();
+            yelpAPI1.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+            yelpAPI1.searchResultsByQuery("starbucks", "Seattle,WA", 3);
 
-            return null;
+            return new Bundle();
         }
 
+        @Override
+        protected void onPostExecute(Bundle bundle) {
+
+//            yelpAuth = bundle.getParcelable(YelpAuth.YELP_AUTH);
+//            Log.d(TAG, "Yelp Auth Values-->" + yelpAuth);
+
+        }
     }
 
 }
