@@ -11,9 +11,8 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by GiveMeWingzz on 12/12/2015.
@@ -27,16 +26,19 @@ public class FoundApiHelper {
     private static final String DEFAULT_LOCATION = "San Francisco, CA";
     private static final String SEARCH_PATH = "/v2/search";
 
-    OAuthService service;
-    Token accessToken;
+    private OAuthService service;
+    private Token accessToken;
+    public static Bundle bundle;
 
-    LinkedHashMap<String, String> map;
-    YelpAuth yelpAuth;
-    Bundle bundle;
+    private LinkedHashMap<String, String> queryParams;
 
     public FoundApiHelper() {
-        map = new LinkedHashMap<>();
+        bundle = new Bundle();
+        queryParams = new LinkedHashMap<>();
     }
+
+    //// Init Helpers//
+    /////////////
 
     /**
      * Setup the Yelp API OAuth credentials.
@@ -46,19 +48,28 @@ public class FoundApiHelper {
      * @param token          Token
      * @param tokenSecret    Token secret
      */
-    public void initializeAuth(String consumerKey, String consumerSecret, String token, String tokenSecret) {
-        this.service =
-                new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(consumerKey)
-                        .apiSecret(consumerSecret).build();
+    public void initializeApiHelper(String consumerKey, String consumerSecret, String token, String tokenSecret) {
+        this.service = new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(consumerKey)
+                .apiSecret(consumerSecret).build();
         this.accessToken = new Token(token, tokenSecret);
+    }
 
-        // Create complete oauth request
+    public void addQuerystringParameter(String key, String value) {
+        queryParams.put(key, value);
+    }
+
+    public void signAuthRequest() {
+
         OAuthRequest request = new OAuthRequest(Verb.GET, "https://" + API_HOST + SEARCH_PATH);
-        request.addQuerystringParameter("term", "Starbucks");
-        request.addQuerystringParameter("location", "Seattle,WA");
-        request.addQuerystringParameter("limit", String.valueOf(3));
+        for (Map.Entry<String, String> param : getQueryParams().entrySet()) {
+            request.addQuerystringParameter(param.getKey(), param.getValue());
+        }
 
-        this.service.signRequest(this.accessToken, request);
+        service.signRequest(accessToken, request);
+
+        Log.d(TAG, "Signing Success");
+
+        YelpAuth yelpAuth = new YelpAuth();
 
         String oauth_signature_method = (String) request.getOauthParameters().values().toArray()[0];
         String oauth_consumer_key = (String) request.getOauthParameters().values().toArray()[1];
@@ -68,23 +79,6 @@ public class FoundApiHelper {
         String oauth_token = (String) request.getOauthParameters().values().toArray()[5];
         String oauth_signature = (String) request.getOauthParameters().values().toArray()[6];
 
-        request.addQuerystringParameter("oauth_signature_method", oauth_signature_method);
-        request.addQuerystringParameter("oauth_consumer_key", oauth_consumer_key);
-        request.addQuerystringParameter("oauth_version", oauth_version);
-        request.addQuerystringParameter("oauth_timestamp", oauth_timestamp);
-        request.addQuerystringParameter("oauth_nonce", oauth_nonce);
-        request.addQuerystringParameter("oauth_token", oauth_token);
-        request.addQuerystringParameter("oauth_signature", oauth_signature);
-
-        String s = null;
-        try {
-            s = URLDecoder.decode((String) request.getOauthParameters().values().toArray()[6], "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        yelpAuth = new YelpAuth();
-
         yelpAuth.setOauth_signature_method(oauth_signature_method);
         yelpAuth.setOauth_consumer_key(oauth_consumer_key);
         yelpAuth.setOauth_version(oauth_version);
@@ -93,20 +87,25 @@ public class FoundApiHelper {
         yelpAuth.setOauth_token(oauth_token);
         yelpAuth.setOauth_signature(oauth_signature);
 
-        bundle = new Bundle();
         bundle.putParcelable(YelpAuth.YELP_AUTH, yelpAuth);
-
         setAuth(bundle);
-
-        Log.d(TAG, "Auth Signature = " + s);
 
     }
 
-    private void setAuth(Bundle bundle){
+    public LinkedHashMap<String, String> getQueryParams() {
+
+        if (queryParams == null) {
+            return new LinkedHashMap<>();
+        }
+
+        return queryParams;
+    }
+
+    private void setAuth(Bundle bundle) {
         this.bundle = bundle;
     }
 
-    public Bundle getAuthFromBundle(){
+    public Bundle getAuthFromBundle() {
         return bundle;
     }
 

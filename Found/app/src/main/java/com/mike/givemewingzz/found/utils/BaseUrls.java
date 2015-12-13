@@ -1,5 +1,6 @@
 package com.mike.givemewingzz.found.utils;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.mike.givemewingzz.found.apihelper.FoundApiHelper;
@@ -28,9 +29,8 @@ public class BaseUrls {
         @Override
         public void intercept(RequestFacade request) {
 
-            FoundApiHelper foundApiHelper = new FoundApiHelper();
-            foundApiHelper.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-            YelpAuth yelpAuth = foundApiHelper.getAuthFromBundle().getParcelable(YelpAuth.YELP_AUTH);
+            Bundle helper = FoundApiHelper.bundle;
+            YelpAuth yelpAuth = helper.getParcelable(YelpAuth.YELP_AUTH);
 
             request.addEncodedQueryParam("oauth_consumer_key", yelpAuth.getOauth_consumer_key());
             request.addEncodedQueryParam("oauth_token", yelpAuth.getOauth_token());

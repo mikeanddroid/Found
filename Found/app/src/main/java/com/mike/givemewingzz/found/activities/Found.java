@@ -1,6 +1,5 @@
 package com.mike.givemewingzz.found.activities;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -8,28 +7,22 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.mike.givemewingzz.found.FoundCompat;
 import com.mike.givemewingzz.found.R;
-import com.mike.givemewingzz.found.apihelper.FoundApiHelper;
-import com.mike.givemewingzz.found.data.models.YelpWrapper;
 import com.mike.givemewingzz.found.parcelable.YelpAuth;
-import com.mike.givemewingzz.found.utils.BaseClient;
-import com.mike.givemewingzz.found.utils.BaseRetrofitInterface;
+import com.mike.givemewingzz.found.service.GetSearchResult;
+import com.mike.givemewingzz.found.utils.FoundConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
-public class Found extends AppCompatActivity
+public class Found extends FoundCompat
         implements NavigationView.OnNavigationItemSelectedListener {
     // Just a test case to test the token interchange from the server.
     // Todo : Delete and modify the data flow. Integrate Asynshronous process within application.
@@ -101,10 +94,9 @@ public class Found extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-//            new TestTask().execute();
-
             doTestCall();
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -135,46 +127,37 @@ public class Found extends AppCompatActivity
         return true;
     }
 
-    // Just a test case to test the token interchange from the server.
-    // Todo : Delete and modify the data flow. Integrate Asynshronous process within application.
-    public class TestTask extends AsyncTask<Bundle, Void, Bundle> {
+    public void doTestCall() {
 
-        @Override
-        protected Bundle doInBackground(Bundle... params) {
+        createInitialRequest();
 
-//            YelpAPI yelpAPI1 = new YelpAPI();
-//            yelpAPI1.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
-//            yelpAPI1.searchResultsByQuery("starbucks", "Seattle,WA", 3);
+        addQueryParams(FoundConstants.TERM, "Starbucks");
+        addQueryParams(FoundConstants.LOCATION, "Seattle,WA");
+        addQueryParams(FoundConstants.LIMIT, String.valueOf(2));
 
-            FoundApiHelper foundApiHelper = new FoundApiHelper();
-            foundApiHelper.initializeAuth(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+        signRequest();
+        GetSearchResult.call("Starbucks", "Seattle,WA", 2);
 
-            return new Bundle();
-        }
-
-        @Override
-        protected void onPostExecute(Bundle bundle) {
-
-//            yelpAuth = bundle.getParcelable(YelpAuth.YELP_AUTH);
-//            Log.d(TAG, "Yelp Auth Values-->" + yelpAuth);
-
-        }
     }
 
-    public void doTestCall() {
-        BaseRetrofitInterface baseRetrofitInterface = BaseClient.getBBSIClient();
+    @Override
+    public String getConsumerKey() {
+        return FoundConstants.CONSUMER_KEY;
+    }
 
-        baseRetrofitInterface.testParams("Starbucks", "Seattle,WA",3, new Callback<YelpWrapper>() {
-            @Override
-            public void success(YelpWrapper yelpWrapper, Response response) {
-                Log.d(TAG,"Response : " + response.getBody().toString());
-            }
+    @Override
+    public String getConsumerSecret() {
+        return FoundConstants.CONSUMER_SECRET;
+    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG,"Response Error: " + error.getResponse().getBody().toString());
-            }
-        });
+    @Override
+    public String getToken() {
+        return FoundConstants.TOKEN;
+    }
+
+    @Override
+    public String getTokenSecret() {
+        return FoundConstants.TOKEN_SECRET;
     }
 
 }
