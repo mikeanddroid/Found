@@ -1,9 +1,7 @@
 package com.mike.givemewingzz.found.data.models;
 
-import com.google.gson.annotations.SerializedName;
-
-import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by GiveMeWingzz on 12/12/2015.
@@ -15,12 +13,15 @@ public class Business extends RealmObject {
     private String mobile_url;
     private String rating_img_url;
     private int review_count;
+
+    @PrimaryKey
     private String name;
+
     private String rating_img_url_small;
     private String url;
 
-    @SerializedName("categories")
-    private RealmList<BusinessCategories> businessCategories;
+//    @SerializedName("categories")
+//    private String businessCategories;
 
     private String menu_date_updated;
     private String phone;
@@ -33,8 +34,8 @@ public class Business extends RealmObject {
     private String id;
     private boolean is_closed=false;
 
-    @SerializedName("location")
-    private LocationData locationData;
+//    @SerializedName("location")
+//    private LocationData locationData;
 
     public boolean is_claimed() {
         return is_claimed;
@@ -100,13 +101,13 @@ public class Business extends RealmObject {
         this.url = url;
     }
 
-    public RealmList<BusinessCategories> getBusinessCategories() {
-        return businessCategories;
-    }
-
-    public void setBusinessCategories(RealmList<BusinessCategories> businessCategories) {
-        this.businessCategories = businessCategories;
-    }
+//    public RealmList<BusinessCategories> getBusinessCategories() {
+//        return businessCategories;
+//    }
+//
+//    public void setBusinessCategories(RealmList<BusinessCategories> businessCategories) {
+//        this.businessCategories = businessCategories;
+//    }
 
     public String getMenu_date_updated() {
         return menu_date_updated;
@@ -184,15 +185,23 @@ public class Business extends RealmObject {
         return is_closed;
     }
 
+//    public String getBusinessCategories() {
+//        return businessCategories;
+//    }
+//
+//    public void setBusinessCategories(String businessCategories) {
+//        this.businessCategories = businessCategories;
+//    }
+
     public void setIs_closed(boolean is_closed) {
         this.is_closed = is_closed;
     }
 
-    public LocationData getLocationData() {
-        return locationData;
-    }
-
-    public void setLocationData(LocationData locationData) {
-        this.locationData = locationData;
-    }
+//    public LocationData getLocationData() {
+//        return locationData;
+//    }
+//
+//    public void setLocationData(LocationData locationData) {
+//        this.locationData = locationData;
+//    }
 }

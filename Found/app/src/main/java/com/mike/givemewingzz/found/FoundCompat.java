@@ -7,6 +7,8 @@ import com.mike.givemewingzz.found.Interfaces.FoundHelperInterfaces;
 import com.mike.givemewingzz.found.Interfaces.MethodsWrapper;
 import com.mike.givemewingzz.found.apihelper.FoundApiHelper;
 
+import io.realm.Realm;
+
 /**
  * Created by GiveMeWingzz on 12/9/2015.
  */
@@ -20,12 +22,14 @@ public abstract class FoundCompat extends AppCompatActivity implements FoundHelp
     public abstract String getTokenSecret();
 
     MethodsWrapper methodsWrapper;
+    protected Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         foundApiHelper = new FoundApiHelper();
         methodsWrapper = foundApiHelper.getMethodsWrapper();
+        realm = Realm.getDefaultInstance();
 
     }
 
@@ -45,6 +49,16 @@ public abstract class FoundCompat extends AppCompatActivity implements FoundHelp
     @Override
     public void signRequest() {
         foundApiHelper.signRequest();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if (realm != null) {
+            realm.close();
+        }
+
+        super.onDestroy();
     }
 
 }

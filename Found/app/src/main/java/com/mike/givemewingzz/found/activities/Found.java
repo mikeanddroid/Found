@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +16,14 @@ import android.widget.Button;
 
 import com.mike.givemewingzz.found.FoundCompat;
 import com.mike.givemewingzz.found.R;
+import com.mike.givemewingzz.found.data.models.Business;
 import com.mike.givemewingzz.found.parcelable.YelpAuth;
 import com.mike.givemewingzz.found.service.GetSearchResult;
 import com.mike.givemewingzz.found.utils.FoundConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.RealmResults;
 
 public class Found extends FoundCompat
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -95,6 +98,14 @@ public class Found extends FoundCompat
         if (id == R.id.action_settings) {
 
             doTestCall();
+
+            // Testing Realm Data.
+            // Todo : Will remove on completion of Otto Integration.
+            RealmResults<Business> businesses = realm.where(Business.class).findAll();
+            for (Business business : businesses) {
+                Log.d(TAG, "Business Data : " + business.getName());
+            }
+
             return true;
 
         }

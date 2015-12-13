@@ -3,11 +3,12 @@ package com.mike.givemewingzz.found.data.models;
 import io.realm.RealmList;
 
 /**
- * Created by GiveMeWingzz on 12/9/2015.
+ * Created by GiveMeWingzz on 12/12/2015.
  */
-public class BusinessesWrapper {
+public class BaseWrapper {
 
-    private RealmList<Business> businesses;
+    public String total;
+    public RealmList<Business> businesses;
 
     public RealmList<Business> getBusinesses() {
         return businesses;
