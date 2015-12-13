@@ -3,6 +3,7 @@ package com.mike.givemewingzz.found.apihelper;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.mike.givemewingzz.found.Interfaces.MethodsWrapper;
 import com.mike.givemewingzz.found.parcelable.YelpAuth;
 
 import org.scribe.builder.ServiceBuilder;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * Created by GiveMeWingzz on 12/12/2015.
  */
-public class FoundApiHelper {
+public class FoundApiHelper implements MethodsWrapper {
 
     private static final String TAG = FoundApiHelper.class.getSimpleName();
 
@@ -31,6 +32,7 @@ public class FoundApiHelper {
     public static Bundle bundle;
 
     private LinkedHashMap<String, String> queryParams;
+    private MethodsWrapper methodsWrapper;
 
     public FoundApiHelper() {
         bundle = new Bundle();
@@ -109,4 +111,22 @@ public class FoundApiHelper {
         return bundle;
     }
 
+    public MethodsWrapper getMethodsWrapper() {
+        return this;
+    }
+
+    @Override
+    public void createInitialRequest(String consumerKey, String consumerSecret, String token, String tokenSecret) {
+        initializeApiHelper(consumerKey, consumerSecret, token, tokenSecret);
+    }
+
+    @Override
+    public void addQueryParams(String key, String value) {
+        addQuerystringParameter(key, value);
+    }
+
+    @Override
+    public void signRequest() {
+        signAuthRequest();
+    }
 }

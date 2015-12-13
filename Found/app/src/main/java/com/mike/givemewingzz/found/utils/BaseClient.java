@@ -52,8 +52,8 @@ public class BaseClient {
 
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setClient(new OkClient(client))
-                    .setRequestInterceptor(BaseUrls.mIntercepter)
-                    .setEndpoint(BaseUrls.BASE_URL)
+                    .setRequestInterceptor(FoundInterceptor.mIntercepter)
+                    .setEndpoint(FoundConstants.BASE_URL)
                     .setConverter(new GsonConverter(gson))
                     .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
                     .build();

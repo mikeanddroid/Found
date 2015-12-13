@@ -27,4 +27,6 @@ public class FoundConstants {
     public static final String RADIUS_FILTER = "radius_filter";
     public static final String DEALS_FILTER = "deals_filter";
 
+    public static final String BASE_URL = "https://api.yelp.com";
+
 }
