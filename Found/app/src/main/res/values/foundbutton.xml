@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FoundButton">
+        <attr name="foundButtonHeight" format="integer" />
+        <attr name="foundButtonWidth" format="integer" />
+        <attr name="foundButtonStrokeWidth" format="integer" />
+        <attr name="foundButtonStrokeColor" format="color" />
+    </declare-styleable>
+
+</resources>

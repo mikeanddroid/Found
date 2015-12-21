@@ -1,4 +1,4 @@
-package com.mike.givemewingzz.found.utils;
+package com.mike.givemewingzz.found.service;
 
 import retrofit.RequestInterceptor;
 

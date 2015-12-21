@@ -6,8 +6,6 @@ import com.mike.givemewingzz.found.data.models.BaseWrapper;
 import com.mike.givemewingzz.found.data.models.Business;
 import com.mike.givemewingzz.found.data.models.BusinessCategories;
 import com.mike.givemewingzz.found.data.models.LocationData;
-import com.mike.givemewingzz.found.utils.BaseClient;
-import com.mike.givemewingzz.found.utils.BaseRetrofitInterface;
 import com.mike.givemewingzz.found.utils.FoundUtils;
 
 import org.json.JSONArray;

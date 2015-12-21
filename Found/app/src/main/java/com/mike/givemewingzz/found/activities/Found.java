@@ -12,32 +12,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
-import com.mike.givemewingzz.found.FoundCompat;
 import com.mike.givemewingzz.found.R;
 import com.mike.givemewingzz.found.data.models.Business;
-import com.mike.givemewingzz.found.parcelable.YelpAuth;
 import com.mike.givemewingzz.found.service.GetSearchResult;
 import com.mike.givemewingzz.found.utils.FoundConstants;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-public class Found extends FoundCompat
-        implements NavigationView.OnNavigationItemSelectedListener {
-    // Just a test case to test the token interchange from the server.
-    // Todo : Delete and modify the data flow. Integrate Asynshronous process within application.
-    private static final String CONSUMER_KEY = "Ox-ughsjh_PCpSX6S6jYIA";
-    private static final String CONSUMER_SECRET = "EFHJdZKBsu_KLoaSET1KqytTuUw";
-    private static final String TOKEN = "NVR_cA0iYEiZwk_8BJh_ySTmyG5LPlhA";
-    private static final String TOKEN_SECRET = "zFUI3i3hAxDMdpKOdSpVtGqdoac";
-
-    @Bind(R.id.searchCall)
-    Button searchButton;
-
-    YelpAuth yelpAuth;
+public class Found extends FoundCompat implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = Found.class.getSimpleName();
 
@@ -48,8 +31,6 @@ public class Found extends FoundCompat
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        ButterKnife.bind(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +49,9 @@ public class Found extends FoundCompat
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        String imageUri = "drawable://" + R.drawable.image_asset_1;
+
     }
 
     @Override
@@ -152,22 +136,22 @@ public class Found extends FoundCompat
     }
 
     @Override
-    public String getConsumerKey() {
+    public String setConsumerKey() {
         return FoundConstants.CONSUMER_KEY;
     }
 
     @Override
-    public String getConsumerSecret() {
+    public String setConsumerSecret() {
         return FoundConstants.CONSUMER_SECRET;
     }
 
     @Override
-    public String getToken() {
+    public String setToken() {
         return FoundConstants.TOKEN;
     }
 
     @Override
-    public String getTokenSecret() {
+    public String setTokenSecret() {
         return FoundConstants.TOKEN_SECRET;
     }
 

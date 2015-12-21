@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.mike.givemewingzz.found.apihelper.FoundApiHelper;
 import com.mike.givemewingzz.found.parcelable.YelpAuth;
+import com.mike.givemewingzz.found.service.BaseRequestIntercepter;
 
 import retrofit.RequestInterceptor;
 

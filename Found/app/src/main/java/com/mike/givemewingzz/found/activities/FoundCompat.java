@@ -1,4 +1,4 @@
-package com.mike.givemewingzz.found;
+package com.mike.givemewingzz.found.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +16,10 @@ public abstract class FoundCompat extends AppCompatActivity implements FoundHelp
 
     private FoundApiHelper foundApiHelper;
 
-    public abstract String getConsumerKey();
-    public abstract String getConsumerSecret();
-    public abstract String getToken();
-    public abstract String getTokenSecret();
+    public abstract String setConsumerKey();
+    public abstract String setConsumerSecret();
+    public abstract String setToken();
+    public abstract String setTokenSecret();
 
     MethodsWrapper methodsWrapper;
     protected Realm realm;
@@ -36,7 +36,7 @@ public abstract class FoundCompat extends AppCompatActivity implements FoundHelp
     // Let the activities/fragments implement it since every request needs to be initialized and signed.
     @Override
     public void createInitialRequest() {
-        foundApiHelper.createInitialRequest(getConsumerKey(), getConsumerSecret(), getToken(), getTokenSecret());
+        foundApiHelper.createInitialRequest(setConsumerKey(), setConsumerSecret(), setToken(), setTokenSecret());
     }
 
     // Let the activities/fragments implement it since every request needs to be initialized and signed.

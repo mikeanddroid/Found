@@ -1,10 +1,13 @@
-package com.mike.givemewingzz.found.utils;
+package com.mike.givemewingzz.found.service;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mike.givemewingzz.found.BuildConfig;
+import com.mike.givemewingzz.found.utils.AppDynamicsInterceptor;
+import com.mike.givemewingzz.found.utils.FoundConstants;
+import com.mike.givemewingzz.found.utils.FoundInterceptor;
 import com.squareup.okhttp.OkHttpClient;
 
 import io.realm.RealmObject;
