@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.mike.givemewingzz.found"
-        minSdkVersion 11
+        minSdkVersion 13
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -50,5 +50,7 @@ dependencies {
     compile 'com.appdynamics:appdynamics-runtime:4.1.5.0'
 
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+
+    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 
 }

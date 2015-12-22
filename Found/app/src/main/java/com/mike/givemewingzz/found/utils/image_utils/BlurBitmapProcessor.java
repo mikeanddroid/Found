@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.mike.givemewingzz.found.FoundApplication;
-import com.mike.givemewingzz.found.R;
 import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 
 /**
@@ -24,11 +22,8 @@ public class BlurBitmapProcessor implements BitmapProcessor {
             return bitmap;
         }
 
-        Bitmap outBitmap = bitmap.copy(config, true);
-
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 16;
-        Bitmap blurTemplate = BitmapFactory.decodeResource(FoundApplication.context.getResources(), R.drawable.image_asset, options);
 
 //        rs.destroy();
 //        bitmap.recycle();

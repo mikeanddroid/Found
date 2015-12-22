@@ -16,6 +16,7 @@ import com.mike.givemewingzz.found.utils.FoundUtils;
 public class FoundTextView extends TextView {
 
     private int font;
+    private static final String TAG = FoundTextView.class.getSimpleName();
 
     public FoundTextView(Context context) {
         super(context);
@@ -59,12 +60,14 @@ public class FoundTextView extends TextView {
             tf = FoundUtils.getTfRobotoRegular();
         }
 
+        Log.d(TAG, "Typeface set " + font);
+
         setTypeface(tf);
 
         a.recycle();
     }
 
-    public void setTypeface(int typeface) {
+    private void setTypefaceFonts(int typeface) {
         Typeface tf;
         if (typeface == getResources().getInteger(R.integer.font_roboto_bold)) {
             tf = FoundUtils.getTfRobotBold();
